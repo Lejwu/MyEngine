@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="Editor_Window/Editor_Window.vcxproj" />
+  <Project Path="Editor_Window/Editor_Window.vcxproj" Id="26ddc389-a7d8-4217-849e-df3da15d1590" />
 </Solution>

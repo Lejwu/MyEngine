@@ -97,8 +97,13 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
+   //  윈도우를 생성
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
       CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+
+   //  2개 이상의 윈도우 생성
+   //HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+   //    CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
@@ -146,6 +151,43 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
+
+
+
+            //DC란 화면에 출력에 필요한 모든 정보를 가지는 데이터 구조체이다,
+            //GDI모듈에 의해서 관리된다.
+            //어떤 폰트, 어떤 선의 굻기, 어떤색으로 그려줄건가
+            //화면 출력에 필요한 모든 경우는 WINAPI에서는 DC를 통해서 작업을 진행할 수 있다.
+
+            HBRUSH brush = CreateSolidBrush(RGB(0, 0, 255));
+
+            //SelectoObject는 오브젝트를 선택함과 동시에 기존의 핸들(주솟값)을 반환함.
+            HBRUSH oldBrush = (HBRUSH)SelectObject(hdc,brush);
+            Rectangle(hdc, 100, 100, 200, 200);
+            
+            (HBRUSH)SelectObject(hdc, oldBrush);
+            DeleteObject(brush);
+
+
+            HPEN redPen = CreatePen(PS_SOLID, 2, RGB(255, 0, 0));
+            HPEN oldPen = (HPEN)SelectObject(hdc, redPen);
+
+            Ellipse(hdc, 200, 200, 300, 300);
+
+            SelectObject(hdc, oldPen);
+            DeleteObject(redPen);
+            
+            //기본으로 자주 사용되는 GDI오브젝트를 미리 DC안에 만들어 두었는데
+            //그 오브젝트를 스톡 오브젝트라고 한다.
+            
+            HBRUSH grayBrush = (HBRUSH)GetStockObject(GRAY_BRUSH);
+            oldBrush = (HBRUSH)SelectObject(hdc,grayBrush);
+
+            Rectangle(hdc, 400, 400, 500, 500);
+            
+            SelectObject(hdc, oldBrush);
+            
+
             // TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
             EndPaint(hWnd, &ps);
         }
