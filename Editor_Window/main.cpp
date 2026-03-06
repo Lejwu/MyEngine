@@ -4,6 +4,14 @@
 #include "framework.h"
 #include "Editor_Window.h"
 
+
+//코드로 정적 라이브러리와 연결하는 방법. 현제는 비주얼스튜디오 참조를 활용해 연결했음.
+//#pragma comment (lib,"..\\x64\\Debug\\myEngine_Window.lib")
+#include "..\\MyEngine_SOUCE\\\myApplication.h"
+
+
+Application app;
+
 #define MAX_LOADSTRING 100
 
 // 전역 변수:
@@ -25,8 +33,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // TODO: 여기에 코드를 입력합니다.
+    app.test();
 
+    // TODO: 여기에 코드를 입력합니다.
+   
     // 전역 문자열을 초기화합니다.
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING); //윈도우 창 이름을 저장
     LoadStringW(hInstance, IDC_EDITORWINDOW, szWindowClass, MAX_LOADSTRING);//윈도우 창 이름을 대문자로 저장
@@ -42,7 +52,33 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     MSG msg;
 
+
+    //GetMessage(&msg, nullptr, 0, 0)
+    // 프로세스에서 발생한 메세지를 메세지 큐에서 가져오는 함수
     // 기본 메시지 루프입니다:
+
+    //PeekMessage : 메세지 큐에 메세지 유무에 상관없이 함수가 리턴된다.
+    //              리턴값이 true인 경우 메세지가 있고 false인 경우는 메세지가 없다라고 가르켜준다.
+
+    while (true)
+    {
+        if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        {
+            if (msg.message == WM_QUIT)
+                break;
+            if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
+            {
+                TranslateMessage(&msg);//메시지 번역
+                DispatchMessage(&msg);//메시지 실행
+            }
+        }
+        else
+        {
+            //메세지가 없을 경우 여기서 처리
+            //게임 로직이 들어간다.
+        }
+                   
+    }
     while (GetMessage(&msg, nullptr, 0, 0))
     {
         if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))

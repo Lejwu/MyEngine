@@ -4,4 +4,6 @@
     <Platform Name="x86" />
   </Configurations>
   <Project Path="Editor_Window/Editor_Window.vcxproj" Id="26ddc389-a7d8-4217-849e-df3da15d1590" />
+  <Project Path="MyEngine_SOUCE/MyEngine_SOUCE.vcxitems" Id="b1733fd7-48db-4307-9419-f901c9d643a6" />
+  <Project Path="MyEngine_Window/MyEngine_Window.vcxproj" Id="374b61b9-71d2-4976-b892-88742db5b517" />
 </Solution>
